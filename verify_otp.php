@@ -8,15 +8,15 @@ $campus_type = $_SESSION['campus_type'];
 
 $db_hostname = "localhost";
 $db_username = "root";
-// $db_password = "1qaz#EDC";
-$db_password = "";
+$db_password = "1qaz#EDC";
+// $db_password = "";
 $db_name = "wifi_registration";
 
 // --- Database radius (radcheck) ---
 $radius_db_hostname = "localhost";
 $radius_db_username = "root";
-// $radius_db_password = "1qaz#EDC";
-$db_password = "";
+$radius_db_password = "1qaz#EDC";
+// $db_password = "";
 $radius_db_name   = "radius";
 
 /* เชื่อม DB */
@@ -65,7 +65,11 @@ update_user($conn, $user_id, $rad_username, $rad_password);
 
 session_destroy();
 
-$url_login = ($campus_type == "WIFI") ? $campus_wifi[$campus_code] : $campus_lan[$campus_code];
+if ($campus_code != '' AND $campus_type != '') {
+    $url_login = ($campus_type == "WIFI") ? $campus_wifi[$campus_code] : $campus_lan[$campus_code];
+} else {
+    $url_login = '';
+}
 
 // --- Show confirmation to user ---
 echo "<div style='font-family:sans-serif;padding:20px;border:1px solid #0c0;border-radius:10px;max-width:400px;margin:20px auto;'>";

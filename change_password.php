@@ -6,11 +6,11 @@ session_start();
 $campus_code = $_SESSION['campus_code'];
 $campus_type = $_SESSION['campus_type'];
 
-// --- Database configs ---
-$radius_cfg = ["host"=>"localhost","user"=>"root","pass"=>"","db"=>"radius"];
-$wifi_cfg   = ["host"=>"localhost","user"=>"root","pass"=>"","db"=>"wifi_registration"];
-// $radius_cfg = ["host"=>"localhost","user"=>"root","pass"=>"1qaz#EDC","db"=>"radius"];
-// $wifi_cfg   = ["host"=>"localhost","user"=>"root","pass"=>"1qaz#EDC","db"=>"wifi_registration"];
+// // --- Database configs ---
+// $radius_cfg = ["host"=>"localhost","user"=>"root","pass"=>"","db"=>"radius"];
+// $wifi_cfg   = ["host"=>"localhost","user"=>"root","pass"=>"","db"=>"wifi_registration"];
+$radius_cfg = ["host"=>"localhost","user"=>"root","pass"=>"1qaz#EDC","db"=>"radius"];
+$wifi_cfg   = ["host"=>"localhost","user"=>"root","pass"=>"1qaz#EDC","db"=>"wifi_registration"];
 
 // Connect radius DB
 $radius_conn = new mysqli($radius_cfg["host"], $radius_cfg["user"], $radius_cfg["pass"], $radius_cfg["db"]);
@@ -24,15 +24,17 @@ if ($wifi_conn->connect_error) {
     die("Wifi_registration DB connection failed: " . $wifi_conn->connect_error);
 }
 
-showMessage("✅ เปลี่ยนรหัสผ่านสำเร็จแล้ว", true);
-
 // --- Function to show message ---
 function showMessage($message, $success = false) {
     global $campus_wifi, $campus_lan, $campus_code, $campus_type;
 
     $color = $success ? "green" : "red";
 
-    $url_login = ($campus_type == "WIFI") ? $campus_wifi[$campus_code] : $campus_lan[$campus_code];
+    if ($campus_code != '' AND $campus_type != '') {
+        $url_login = ($campus_type == "WIFI") ? $campus_wifi[$campus_code] : $campus_lan[$campus_code];
+    } else {
+        $url_login = '';
+    }
 
     echo "<div style='font-family:sans-serif;padding:20px;border:1px solid $color;border-radius:10px;max-width:400px;margin:20px auto;text-align:center;'>";
     echo "<p style='color:$color;font-size:18px;'>$message</p>";
