@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>แบบฟอร์มลงทะเบียนขอใช้บริการ Wi-Fi | ม.รามคำแหง</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* เพิ่มสไตล์สำหรับการพิมพ์ */
+    @media print {
+      .no-print { display: none; }
+      body { background: #fff; }
+    }
+    /* พื้นที่ลายเซ็นขนาดพิมพ์ */
+    .sig-box { min-height: 40px; border-bottom: 1px solid #ccc; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 py-10">
+  <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="p-6 border-b">
+      <h1 class="text-2xl font-semibold text-center">แบบฟอร์มลงทะเบียนขอใช้บริการอินเทอร์เน็ตไร้สาย (Wi-Fi)</h1>
+      <p class="text-center text-sm text-gray-600 mt-1">มหาวิทยาลัยรามคําแหง</p>
+    </div>
+
+    <form id="wifiForm" class="p-6 space-y-6" onsubmit="return handleSubmit(event)">
+      <!-- 1. ข้อมูลผู้ขอใช้บริการ -->
+      <section>
+        <h2 class="font-medium mb-2">1. ข้อมูลผู้ขอใช้บริการ</h2>
+        <div class="grid grid-cols-1 gap-3">
+          <label class="block">
+            ชื่อ–นามสกุล
+            <input name="fullName" required class="mt-1 w-full border rounded-md px-3 py-2" placeholder="ชื่อ–นามสกุล">
+          </label>
+
+          <div class="flex gap-4 items-start">
+            <label class="flex items-center gap-2">
+              <input type="radio" name="userType" value="staff" required>
+              บุคลากรภายใน
+            </label>
+            <input name="staffId" class="border rounded-md px-3 py-2" placeholder="เลขประจำตัว (ถ้ามี)">
+            <label class="flex items-center gap-2 ml-4">
+              <input type="radio" name="userType" value="student">
+              นักศึกษา
+            </label>
+            <input name="studentId" class="border rounded-md px-3 py-2" placeholder="รหัสนักศึกษา (ถ้ามี)">
+          </div>
+
+          <div class="flex gap-4 items-center">
+            <label class="flex items-center gap-2">
+              <input type="radio" name="userType" value="external">
+              บุคคลภายนอก
+            </label>
+            <input name="idNumber" class="border rounded-md px-3 py-2" placeholder="เลขที่บัตรประชาชน (ถ้ามี)">
+          </div>
+
+          <label class="block">
+            เบอร์โทรศัพท์มือถือ / เบอร์ที่ติดต่อได้ (จะใช้เป็นรหัสผ่าน)
+            <input name="phone" required pattern="^[0-9+\-\s]{7,20}$" class="mt-1 w-full border rounded-md px-3 py-2" placeholder="เช่น 0812345678">
+            <p class="text-sm text-gray-500 mt-1">ระบุเฉพาะตัวเลขและเครื่องหมาย +,- เว้นวรรคได้</p>
+          </label>
+
+          <label class="block">
+            อีเมล หรือ เฟซบุ๊ก (ติดต่อ)
+            <input name="contact" class="mt-1 w-full border rounded-md px-3 py-2" placeholder="อีเมลหรือลิงก์เฟซบุ๊ก">
+          </label>
+        </div>
+      </section>
+
+      <!-- 2. ข้อมูลอุปกรณ์ -->
+      <section>
+        <h2 class="font-medium mb-2">2. ข้อมูลอุปกรณ์ที่จะใช้งาน</h2>
+        <div class="grid grid-cols-1 gap-3">
+          <div class="flex gap-3 items-center">
+            <label class="flex items-center gap-2"><input type="checkbox" name="deviceType" value="Notebook"> Notebook</label>
+            <label class="flex items-center gap-2"><input type="checkbox" name="deviceType" value="Smartphone"> Smartphone</label>
+            <label class="flex items-center gap-2"><input type="checkbox" name="deviceType" value="Tablet"> Tablet</label>
+            <input name="deviceOther" class="border rounded-md px-3 py-2" placeholder="อื่น ๆ">
+          </div>
+
+          <label>
+            ยี่ห้อ / รุ่น
+            <input name="deviceModel" class="mt-1 w-full border rounded-md px-3 py-2" placeholder="ยี่ห้อ / รุ่น">
+          </label>
+
+          <label>
+            ระบบปฏิบัติการ
+            <select name="os" class="mt-1 w-full border rounded-md px-3 py-2">
+              <option value="">-- เลือก --</option>
+              <option>Windows</option>
+              <option>macOS</option>
+              <option>iOS</option>
+              <option>Android</option>
+              <option>อื่น ๆ</option>
+            </select>
+          </label>
+
+          <label>
+            หมายเลขครุภัณฑ์ (ถ้ามี)
+            <input name="assetNumber" class="mt-1 w-full border rounded-md px-3 py-2" placeholder="หมายเลขครุภัณฑ์">
+          </label>
+        </div>
+      </section>
+
+      <!-- 3. รายละเอียดการขอใช้งาน -->
+      <section>
+        <h2 class="font-medium mb-2">3. รายละเอียดการขอใช้งาน</h2>
+        <div class="grid grid-cols-1 gap-3">
+          <div class="flex gap-4 items-center">
+            <label class="flex items-center gap-2"><input type="radio" name="networkType" value="guest" required> Guest Wi-Fi</label>
+            <label class="flex items-center gap-2"><input type="radio" name="networkType" value="internal"> เครือข่ายภายในมหาวิทยาลัยฯ</label>
+          </div>
+
+          <label>
+            วัตถุประสงค์การใช้งาน
+            <input name="purpose" class="mt-1 w-full border rounded-md px-3 py-2" placeholder="เช่น เรียนออนไลน์/งานราชการ/อื่น ๆ">
+          </label>
+
+          <label>
+            สาขาของมหาวิทยาลัยฯ ที่ขอใช้งาน
+            <input name="campusBranch" class="mt-1 w-full border rounded-md px-3 py-2" placeholder="สาขา">
+          </label>
+        </div>
+      </section>
+
+      <!-- 4. เงื่อนไขการใช้งาน -->
+      <section>
+        <h2 class="font-medium mb-2">4. เงื่อนไขการใช้งาน</h2>
+        <div class="bg-gray-50 border rounded-md p-4 text-sm space-y-2">
+          <p>ผู้ใช้ต้องยอมรับก่อนการอนุมัติให้เข้าใช้งาน</p>
+          <ol class="list-decimal list-inside text-sm">
+            <li>ผู้ใช้บริการต้องไม่กระทําการใด ๆ ที่ผิดกฎหมายหรือนําไปสู่การละเมิดสิทธิ์ผู้อื่น</li>
+            <li>มหาวิทยาลัยฯ มีสิทธิ์ในการเก็บบันทึกการใช้งาน (Log file) ตามที่กฎหมายกําหนด</li>
+            <li>ผู้ใช้บริการต้องรักษาความปลอดภัยของบัญชีผู้ใช้ (Username/Password) และรับผิดชอบต่อการใช้งาน</li>
+            <li>หากฝ่าฝืนข้อตกลง มหาวิทยาลัยฯ มีสิทธิ์ระงับการใช้งานโดยไม่ต้องแจ้งล่วงหน้า</li>
+          </ol>
+        </div>
+
+        <label class="flex items-center gap-3 mt-3">
+          <input type="checkbox" id="acceptTerms" required>
+          ข้าพเจ้ายอมรับเงื่อนไขการใช้งานข้างต้น
+        </label>
+      </section>
+
+      <!-- Signatures and submit -->
+      <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <p class="text-sm text-gray-600">ลงชื่อผู้ขอใช้บริการ</p>
+          <div class="sig-box my-4" id="sigRequester"></div>
+          <p class="text-sm">(.......................................................)</p>
+          <p class="text-sm mt-2">วันที่ <input type="date" name="requestDate" class="border rounded-md px-2 py-1"></p>
+        </div>
+
+        <div>
+          <p class="text-sm text-gray-600">ลงชื่อผู้อนุมัติ</p>
+          <div class="sig-box my-4" id="sigApprover"></div>
+          <p class="text-sm">(.......................................................)</p>
+          <p class="text-sm mt-2">ตำแหน่ง <input name="approverPosition" class="border rounded-md px-2 py-1"></p>
+          <p class="text-sm mt-2">วันที่ <input type="date" name="approveDate" class="border rounded-md px-2 py-1"></p>
+        </div>
+      </section>
+
+      <div class="flex gap-3 justify-end no-print">
+        <button type="button" onclick="window.print()" class="px-4 py-2 bg-gray-200 rounded-md">พิมพ์ / บันทึกเป็น PDF</button>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md">ส่งแบบฟอร์ม</button>
+      </div>
+    </form>
+
+    <div id="result" class="p-6 hidden"></div>
+  </div>
+
+  <script>
+    // ฟังก์ชันตรวจสอบและแสดงผล (ตัวอย่างเก็บใน localStorage หรือนำไปส่งที่เซิร์ฟเวอร์)
+    function handleSubmit(e) {
+      e.preventDefault();
+      const form = document.getElementById('wifiForm');
+      if (!form.reportValidity()) return false;
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      // ดึง checkbox หลายค่า deviceType
+      const deviceTypes = [];
+      form.querySelectorAll('input[name="deviceType"]:checked').forEach(c => deviceTypes.push(c.value));
+      data.deviceType = deviceTypes.join(', ');
+
+      // เก็บข้อมูลตัวอย่างใน localStorage (demo)
+      const stored = JSON.parse(localStorage.getItem('wifiRegistrations') || '[]');
+      stored.push({ ...data, createdAt: new Date().toISOString()});
+      localStorage.setItem('wifiRegistrations', JSON.stringify(stored));
+
+      // แสดงผลสำเร็จ
+      const result = document.getElementById('result');
+      result.classList.remove('hidden');
+      result.innerHTML = `
+        <div class="max-w-2xl mx-auto p-4">
+          <h3 class="font-semibold text-lg">ส่งแบบฟอร์มสำเร็จ</h3>
+          <p class="mt-2 text-sm text-gray-700">ข้อมูลลงทะเบียนถูกบันทึกในเครื่อง (localStorage) เรียบร้อยแล้ว</p>
+          <pre class="mt-3 p-3 bg-gray-100 rounded text-xs overflow-auto">${JSON.stringify(data, null, 2)}</pre>
+          <p class="mt-3 text-sm">ถ้าต้องการบันทึกบนเซิร์ฟเวอร์ ให้เชื่อมต่อฟอร์มกับ API ของระบบงาน</p>
+          <div class="mt-3"><button onclick="location.reload()" class="px-3 py-1 bg-blue-600 text-white rounded">ปิด</button></div>
+        </div>
+      `;
+      // ซ่อนฟอร์ม
+      form.style.display = 'none';
+      return false;
+    }
+  </script>
+</body>
+</html>

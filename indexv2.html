@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSP Test Page</title>
+    <!-- Inline script (used for testing CSP directives) -->
+    <script>
+        console.log("Inline script executed.");
+    </script>
+    <!-- Inline style -->
+    <style>
+        body { background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>Content Security Policy Test</h1>
+    <p>If CSP is working correctly, some elements below may not load or execute.</p>
+
+    <!-- External JavaScript -->
+    <script src="test.js"></script>
+
+    <!-- Image -->
+    <img src="https://example.com/image.png" alt="Test Image">
+
+    <!-- External Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Inline Event -->
+    <button onclick="alert('Button Clicked!')">Click Me</button>
+</body>
+</html>
+
