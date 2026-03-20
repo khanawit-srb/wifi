@@ -1,9 +1,16 @@
 <?php
+include_once('app.php');
+
+session_start();
+
+$campus_code = $_SESSION['campus_code'];
+$campus_type = $_SESSION['campus_type'];
+
 // --- Database configs ---
-// $radius_cfg = ["host"=>"localhost","user"=>"root","pass"=>"","db"=>"radius"];
-// $wifi_cfg   = ["host"=>"localhost","user"=>"root","pass"=>"","db"=>"wifi_registration"];
-$radius_cfg = ["host"=>"localhost","user"=>"root","pass"=>"1qaz#EDC","db"=>"radius"];
-$wifi_cfg   = ["host"=>"localhost","user"=>"root","pass"=>"1qaz#EDC","db"=>"wifi_registration"];
+$radius_cfg = ["host"=>"localhost","user"=>"root","pass"=>"","db"=>"radius"];
+$wifi_cfg   = ["host"=>"localhost","user"=>"root","pass"=>"","db"=>"wifi_registration"];
+// $radius_cfg = ["host"=>"localhost","user"=>"root","pass"=>"1qaz#EDC","db"=>"radius"];
+// $wifi_cfg   = ["host"=>"localhost","user"=>"root","pass"=>"1qaz#EDC","db"=>"wifi_registration"];
 
 // Connect radius DB
 $radius_conn = new mysqli($radius_cfg["host"], $radius_cfg["user"], $radius_cfg["pass"], $radius_cfg["db"]);
@@ -17,12 +24,25 @@ if ($wifi_conn->connect_error) {
     die("Wifi_registration DB connection failed: " . $wifi_conn->connect_error);
 }
 
+showMessage("✅ เปลี่ยนรหัสผ่านสำเร็จแล้ว", true);
+
 // --- Function to show message ---
 function showMessage($message, $success = false) {
+    global $campus_wifi, $campus_lan, $campus_code, $campus_type;
+
     $color = $success ? "green" : "red";
+
+    $url_login = ($campus_type == "WIFI") ? $campus_wifi[$campus_code] : $campus_lan[$campus_code];
+
     echo "<div style='font-family:sans-serif;padding:20px;border:1px solid $color;border-radius:10px;max-width:400px;margin:20px auto;text-align:center;'>";
     echo "<p style='color:$color;font-size:18px;'>$message</p>";
-    echo "<p><a href='index.php' style='color:blue;text-decoration:underline;'>กลับไปยังหน้าฟอร์ม</a></p>";
+    
+    echo "<div style='display: flex;align-items: center;justify-content: space-evenly;'>";
+        echo "<p><a href='index.php' style='color:blue;text-decoration:underline;'>กลับไปยังหน้าฟอร์ม</a></p>";
+        if($campus_code != ""){
+            echo "<a href=' $url_login ' target='_blank' style='color:blue;text-decoration:underline;'>เข้าสู่ระบบ</a>";
+        }
+    echo "</div>";
     echo "</div>";
     exit;
 }

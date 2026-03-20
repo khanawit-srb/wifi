@@ -1,10 +1,17 @@
 <?php
+include_once('app.php');
+
 session_start();
+
+$campus_code = $_SESSION['campus_code'];
+$campus_type = $_SESSION['campus_type'];
+
+dd($campus_code .' - '. $campus_type);
 
 $db_hostname = "localhost";
 $db_username = "root";
-$db_password = "1qaz#EDC";
-//$db_password = "";
+// $db_password = "1qaz#EDC";
+$db_password = "";
 $db_name = "wifi_registration";
 
 /* เชื่อม DB */

@@ -1,16 +1,22 @@
 <?php
+include_once('app.php');
+
 session_start();
+
+$campus_code = $_SESSION['campus_code'];
+$campus_type = $_SESSION['campus_type'];
 
 $db_hostname = "localhost";
 $db_username = "root";
-$db_password = "1qaz#EDC";
-// $db_password = "";
+// $db_password = "1qaz#EDC";
+$db_password = "";
 $db_name = "wifi_registration";
 
 // --- Database radius (radcheck) ---
 $radius_db_hostname = "localhost";
 $radius_db_username = "root";
-$radius_db_password = "1qaz#EDC";
+// $radius_db_password = "1qaz#EDC";
+$db_password = "";
 $radius_db_name   = "radius";
 
 /* เชื่อม DB */
@@ -59,13 +65,20 @@ update_user($conn, $user_id, $rad_username, $rad_password);
 
 session_destroy();
 
+$url_login = ($campus_type == "WIFI") ? $campus_wifi[$campus_code] : $campus_lan[$campus_code];
+
 // --- Show confirmation to user ---
 echo "<div style='font-family:sans-serif;padding:20px;border:1px solid #0c0;border-radius:10px;max-width:400px;margin:20px auto;'>";
-echo "<h2 style='color:green;'>✅ การลงทะเบียนสำเร็จแล้ว</h2>";
-echo "<p><b>Username:</b> $rad_username </p>";
-echo "<p><b>Password:</b> $rad_password </p>";
-echo "<p>กรุณาจดจำหรือบันทึกข้อมูลนี้เพื่อเข้าใช้งาน Wi-Fi</p>";
-echo "<p><a href='index.php' style='color:blue;text-decoration:underline;'>กลับไปหน้าหลัก</a></p>";
+    echo "<h2 style='color:green;'>✅ การลงทะเบียนสำเร็จแล้ว</h2>";
+    echo "<p><b>Username:</b> $rad_username </p>";
+    echo "<p><b>Password:</b> $rad_password </p>";
+    echo "<p>กรุณาจดจำหรือบันทึกข้อมูลนี้เพื่อเข้าใช้งาน Wi-Fi</p>";
+    echo "<div style='display: flex;align-items: center;justify-content: space-evenly;'>";
+        echo "<a href='index.php' style='color:blue;text-decoration:underline;'>กลับไปหน้าหลัก</a>";
+        if($campus_code != ""){
+            echo "<a href=' $url_login ' style='color:blue;text-decoration:underline;'>เข้าสู่ระบบ</a>";
+        }
+    echo "</div>";
 echo "</div>";
 
 /* ==============================

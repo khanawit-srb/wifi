@@ -1,3 +1,12 @@
+<?php 
+include_once('app.php');
+
+session_start(); 
+
+$_SESSION['campus_code'] = (isset($_GET['code'])) ? strtoupper($_GET['code']) : '';
+$_SESSION['campus_type'] = (isset($_GET['type'])) ? strtoupper($_GET['type']) : '';
+?>
+
 <!DOCTYPE html>
 <html lang="th">
 <head>

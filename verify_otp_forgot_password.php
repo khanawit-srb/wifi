@@ -1,17 +1,24 @@
 <?php
+include_once('app.php');
+
 session_start();
+
+$campus_code = $_SESSION['campus_code'];
+$campus_type = $_SESSION['campus_type'];
+
+dd($campus_code .' - '. $campus_type);
 
 $db_hostname = "localhost";
 $db_username = "root";
-$db_password = "1qaz#EDC";
-// $db_password = "";
+// $db_password = "1qaz#EDC";
+$db_password = "";
 $db_name = "wifi_registration";
 
 // --- Database radius (radcheck) ---
 $radius_db_hostname = "localhost";
 $radius_db_username = "root";
-$radius_db_password = "1qaz#EDC";
-// $radius_db_password = "";
+// $radius_db_password = "1qaz#EDC";
+$radius_db_password = "";
 $radius_db_name   = "radius";
 
 /* เชื่อม DB */
@@ -56,11 +63,20 @@ $success_redcheck = update_redcheck($conn_radius, $temp_hash, $username);
 
 $success_users = update_users($conn, $temp_password, $username);
 
+$_SESSION['wifi_forgot_password_form'] = "";
+
+$url_login = ($campus_type == "WIFI") ? $campus_wifi[$campus_code] : $campus_lan[$campus_code];
+
 if ($success_redcheck && $success_users) {
     echo "<div style='font-family:sans-serif;padding:20px;border:1px solid #0c0;border-radius:10px;max-width:400px;margin:20px auto;'>";
     echo "<h2 style='color:green;'>✅ รีเซ็ตรหัสผ่านสำเร็จ</h2>";
     echo "<p>กรุณาตรวจสอบรหัสผ่านชั่วคราวที่ส่งไปทาง SMS ตามหมายเลขมือถือที่ลงทะเบียนไว้ กรุณาเปลี่ยนรหัสผ่านหลังจากเข้าสู่ระบบ</p>";
-    echo "<p><a href='index.php' style='color:blue;text-decoration:underline;'>กลับไปหน้าหลัก</a></p>";
+    echo "<div style='display: flex;align-items: center;justify-content: space-evenly;'>";
+        echo "<p><a href='index.php' style='color:blue;text-decoration:underline;'>กลับไปหน้าหลัก</a></p>";
+        if($campus_code != ""){
+            echo "<a href=' $url_login ' style='color:blue;text-decoration:underline;'>เข้าสู่ระบบ</a>";
+        }
+    echo "</div>";
     echo "</div>";
 } else {
     showMessage("❌ เกิดข้อผิดพลาดในการรีเซ็ตรหัสผ่าน");

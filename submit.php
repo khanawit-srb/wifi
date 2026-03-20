@@ -2,8 +2,8 @@
 session_start();
 $db_hostname = "localhost";
 $db_username = "root";
-$db_password = "1qaz#EDC";
-// $db_password = "";
+// $db_password = "1qaz#EDC";
+$db_password = "";
 $db_name = "wifi_registration";
 
 /* เชื่อม DB */
