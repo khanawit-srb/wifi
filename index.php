@@ -26,7 +26,10 @@ $_SESSION['campus_type'] = (isset($_GET['type'])) ? strtoupper($_GET['type']) : 
                 <a href="registration.php" class="btn btn-primary">(1) ลงทะเบียนใช้งานใหม่</a>
                 <a href="change_password.php" class="btn btn-secondary">(2) เปลี่ยนรหัสผ่าน</a>
                 <a href="forgot_password.php" class="btn btn-warning">(3) ลืมรหัสผ่าน</a>
-                <a href="user_manual.pdf" class="btn-user-manual" target="_blank">คู่มือการใช้งาน</a>
+                <div style='display: flex;align-items: center;justify-content: space-evenly;'>
+                    <a href="user_manual.pdf" class="btn-user-manual" target="_blank">คู่มือการใช้งาน</a>
+                    <a href="user_manual_logout.pdf" class="btn-user-manual" target="_blank">คู่มือการออกจากระบบ</a>
+                </div>
             </div>
         </div>
     </div>
